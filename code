@@ -1,0 +1,418 @@
+import React, { useState, useEffect } from 'react';
+const PortfolioOutput = () => {
+const [currentView, setCurrentView] = useState('website');
+const [projects, setProjects] = useState([]);
+const [loading, setLoading] = useState(false);
+const [contactForm, setContactForm] = useState({
+name: '',
+email: '',
+message: ''
+});
+// Simulate API data - this is what your MongoDB will return
+const sampleProjects = [
+{
+_id: "64f1a2b3c4d5e6f789012345",
+title: "Portfolio Website",
+description: "Dynamic portfolio with React and Node.js backend",
+technologies: ["React", "Node.js", "MongoDB", "Bootstrap"],
+githubLink: "https://github.com/example/portfolio",
+demoLink: "https://myportfolio.netlify.app",
+dateAdded: "2025-09-15T10:30:00.000Z"
+},
+{
+_id: "64f1a2b3c4d5e6f789012346",
+title: "Smart Attendance System",
+description: "Face recognition based attendance tracking system",
+technologies: ["Python", "OpenCV", "Flask", "SQLite"],
+githubLink: "https://github.com/example/attendance-system",
+dateAdded: "2025-09-10T14:20:00.000Z"
+},
+{
+_id: "64f1a2b3c4d5e6f789012347",
+title: "E-Commerce Web App",
+description: "Full-stack online shopping platform with payment
+integration",
+technologies: ["React", "Express", "MySQL", "Stripe API"],
+githubLink: "https://github.com/example/ecommerce",
+demoLink: "https://mystore.herokuapp.com",
+dateAdded: "2025-09-05T09:15:00.000Z"
+}
+];
+const apiResponses = {
+projects: {
+method: "GET",
+url: "http://localhost:5000/api/projects",
+status: 200,
+
+response: sampleProjects
+},
+contact: {
+method: "POST",
+url: "http://localhost:5000/api/contact",
+status: 201,
+response: {
+message: "Contact form submitted successfully",
+id: "64f1a2b3c4d5e6f789012348"
+}
+}
+};
+useEffect(() => {
+// Simulate loading projects on component mount
+setLoading(true);
+setTimeout(() => {
+setProjects(sampleProjects);
+setLoading(false);
+}, 1000);
+}, []);
+const handleContactSubmit = (e) => {
+e.preventDefault();
+alert('Contact form submitted successfully! (In real app, this goes to
+MongoDB)');
+setContactForm({ name: '', email: '', message: '' });
+};
+const ProjectCard = ({ project }) => (
+<div style={{
+border: '1px solid #ddd',
+borderRadius: '8px',
+padding: '20px',
+marginBottom: '20px',
+backgroundColor: 'white',
+boxShadow: '0 2px 4px rgba(0,0,0,0.1)'
+}}>
+<h5 style={{ color: '#2c3e50', marginBottom: '10px'
+}}>{project.title}</h5>
+<p style={{ color: '#7f8c8d', marginBottom: '15px'
+}}>{project.description}</p>
+<div style={{ marginBottom: '15px' }}>
+{project.technologies.map((tech, index) => (
+<span key={index} style={{
+backgroundColor: '#6334dbff',
+color: 'white',
+padding: '4px 8px',
+
+borderRadius: '12px',
+fontSize: '12px',
+marginRight: '8px',
+marginBottom: '5px',
+display: 'inline-block'
+}}>
+{tech}
+</span>
+))}
+</div>
+<div style={{ display: 'flex', gap: '10px' }}>
+{project.githubLink && (
+<a href={project.githubLink} style={{
+padding: '8px 16px',
+backgroundColor: '#2c3e50',
+color: 'white',
+textDecoration: 'none',
+borderRadius: '4px',
+fontSize: '14px'
+}}>
+GitHub
+</a>
+)}
+{project.demoLink && (
+<a href={project.demoLink} style={{
+padding: '8px 16px',
+backgroundColor: '#6334dbff',
+color: 'white',
+textDecoration: 'none',
+borderRadius: '4px',
+fontSize: '14px'
+}}>
+Live Demo
+</a>
+)}
+</div>
+</div>
+);
+const renderWebsiteView = () => (
+<div style={{ backgroundColor: '#f8f9fa', minHeight: '100vh' }}>
+{/* Navigation */}
+<nav style={{
+backgroundColor: '#2c3e50',
+padding: '15px 0',
+marginBottom: '30px'
+}}>
+
+<div style={{ maxWidth: '1200px', margin: '0 auto', padding: '0 20px'
+}}>
+<div style={{ display: 'flex', justifyContent: 'space-between',
+alignItems: 'center' }}>
+<h3 style={{ color: 'white', margin: 0 }}>SRM</h3>
+<div style={{ display: 'flex', gap: '20px' }}>
+<a href="#" style={{ color: 'white', textDecoration: 'none'
+}}>Home</a>
+<a href="#" style={{ color: 'white', textDecoration: 'none'
+}}>About</a>
+<a href="#" style={{ color: 'white', textDecoration: 'none'
+}}>Projects</a>
+<a href="#" style={{ color: 'white', textDecoration: 'none'
+}}>Contact</a>
+</div>
+</div>
+</div>
+</nav>
+<div style={{ maxWidth: '1200px', margin: '0 auto', padding: '0 20px'
+}}>
+{/* Hero Section */}
+<div style={{
+textAlign: 'center',
+backgroundColor: 'white',
+padding: '50px 20px',
+borderRadius: '10px',
+marginBottom: '40px',
+boxShadow: '0 2px 10px rgba(0,0,0,0.1)'
+}}>
+<div style={{
+width: '150px',
+height: '150px',
+borderRadius: '50%',
+backgroundColor: '#6334dbff',
+margin: '0 auto 20px',
+display: 'flex',
+alignItems: 'center',
+justifyContent: 'center',
+color: 'white',
+fontSize: '48px'
+}}>
+SRM
+</div>
+<h1 style={{ color: '#2c3e50', marginBottom: '10px' }}>SRM</h1>
+<p style={{ color: '#7f8c8d', fontSize: '18px', marginBottom: '30px'
+}}>
+B.Tech IT Student | Full Stack Developer | React Enthusiast
+
+</p>
+<div style={{ display: 'flex', gap: '15px', justifyContent: 'center'
+}}>
+<button style={{
+backgroundColor: '#6334dbff',
+color: 'white',
+border: 'none',
+padding: '12px 24px',
+borderRadius: '6px',
+cursor: 'pointer'
+}}>
+View Projects
+</button>
+<button style={{
+backgroundColor: 'transparent',
+color: '#6334dbff',
+border: '2px solid #6334dbff',
+padding: '12px 24px',
+borderRadius: '6px',
+cursor: 'pointer'
+}}>
+Contact Me
+</button>
+</div>
+</div>
+{/* Projects Section */}
+<div style={{
+backgroundColor: 'white',
+padding: '40px',
+borderRadius: '10px',
+marginBottom: '40px',
+boxShadow: '0 2px 10px rgba(0,0,0,0.1)'
+}}>
+<h2 style={{ color: '#2c3e50', marginBottom: '30px', textAlign:
+'center' }}>
+My Projects ({projects.length})
+</h2>
+{loading ? (
+<div style={{ textAlign: 'center', padding: '40px' }}>
+<div style={{
+width: '40px',
+height: '40px',
+border: '4px solid #6334dbff',
+borderTop: '4px solid transparent',
+borderRadius: '50%',
+animation: 'spin 1s linear infinite',
+
+margin: '0 auto 20px'
+}}></div>
+<p>Loading projects from MongoDB...</p>
+</div>
+) : (
+<div>
+{projects.map(project => (
+<ProjectCard key={project._id} project={project} />
+))}
+</div>
+)}
+</div>
+{/* Contact Form */}
+<div style={{
+backgroundColor: 'white',
+padding: '40px',
+borderRadius: '10px',
+marginBottom: '40px',
+boxShadow: '0 2px 10px rgba(0,0,0,0.1)'
+}}>
+<h2 style={{ color: '#2c3e50', marginBottom: '30px', textAlign:
+'center' }}>
+Contact Me
+</h2>
+<div style={{ maxWidth: '600px', margin: '0 auto' }}>
+<div style={{ marginBottom: '20px' }}>
+<input
+type="text"
+placeholder="Your Name"
+value={contactForm.name}
+onChange={(e) => setContactForm({ ...contactForm, name:
+e.target.value })}
+style={{
+width: '100%',
+padding: '12px',
+border: '1px solid #ddd',
+borderRadius: '6px',
+fontSize: '16px'
+}}
+/>
+</div>
+<div style={{ marginBottom: '20px' }}>
+<input
+type="email"
+placeholder="Your Email"
+value={contactForm.email}
+
+onChange={(e) => setContactForm({ ...contactForm, email:
+e.target.value })}
+style={{
+width: '100%',
+padding: '12px',
+border: '1px solid #ddd',
+borderRadius: '6px',
+fontSize: '16px'
+}}
+/>
+</div>
+<div style={{ marginBottom: '20px' }}>
+<textarea
+placeholder="Your Message"
+value={contactForm.message}
+onChange={(e) => setContactForm({ ...contactForm, message:
+e.target.value })}
+rows={5}
+style={{
+width: '100%',
+padding: '12px',
+border: '1px solid #ddd',
+borderRadius: '6px',
+fontSize: '16px',
+resize: 'vertical'
+}}
+/>
+</div>
+<button
+onClick={handleContactSubmit}
+style={{
+backgroundColor: '#27ae60',
+color: 'white',
+border: 'none',
+padding: '15px 30px',
+borderRadius: '6px',
+cursor: 'pointer',
+fontSize: '16px',
+width: '100%'
+}}
+>
+Send Message
+</button>
+</div>
+</div>
+</div>
+<style>
+
+{`
+@keyframes spin {
+0% { transform: rotate(0deg); }
+100% { transform: rotate(360deg); }
+}
+`}
+</style>
+</div>
+);
+// --- renderAPIView & renderTerminalView are unchanged ---
+const renderAPIView = () => (
+<div style={{ backgroundColor: '#1a1a1a', color: '#00ff00', padding:
+'20px', fontFamily: 'monospace' }}>
+{/* ... same as your original code ... */}
+</div>
+);
+const renderTerminalView = () => (
+<div style={{ backgroundColor: '#000000', color: '#00ff00', padding:
+'20px', fontFamily: 'monospace' }}>
+{/* ... same as your original code ... */}
+</div>
+);
+return (
+<div style={{ minHeight: '100vh' }}>
+{/* Navigation Tabs */}
+<div style={{
+backgroundColor: '#34495e',
+padding: '15px 0',
+borderBottom: '3px solid #2c3e50'
+}}>
+<div style={{ maxWidth: '1200px', margin: '0 auto', padding: '0 20px'
+}}>
+<div style={{ display: 'flex', gap: '20px' }}>
+<button
+onClick={() => setCurrentView('website')}
+style={{
+backgroundColor: currentView === 'website' ? '#3498db' :
+'transparent',
+color: 'white',
+border: currentView === 'website' ? 'none' : '2px solid
+#3498db',
+padding: '10px 20px',
+borderRadius: '6px',
+cursor: 'pointer'
+}}
+
+>
+Portfolio Website Output
+</button>
+<button
+onClick={() => setCurrentView('api')}
+style={{
+backgroundColor: currentView === 'api' ? '#3498db' :
+'transparent',
+color: 'white',
+border: currentView === 'api' ? 'none' : '2px solid #3498db',
+padding: '10px 20px',
+borderRadius: '6px',
+cursor: 'pointer'
+}}
+>
+API Testing Results
+</button>
+<button
+onClick={() => setCurrentView('terminal')}
+style={{
+backgroundColor: currentView === 'terminal' ? '#3498db' :
+'transparent',
+color: 'white',
+border: currentView === 'terminal' ? 'none' : '2px solid
+#3498db',
+padding: '10px 20px',
+borderRadius: '6px',
+cursor: 'pointer'
+}}
+>
+⚡ Terminal Setup
+</button>
+</div>
+</div>
+</div>
+{/* Content */}
+{currentView === 'website' && renderWebsiteView()}
+{currentView === 'api' && renderAPIView()}
+{currentView === 'terminal' && renderTerminalView()}
+</div>
+);
+};
+export default PortfolioOutput;
